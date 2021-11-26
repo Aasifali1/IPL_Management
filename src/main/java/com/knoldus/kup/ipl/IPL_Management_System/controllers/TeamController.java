@@ -1,9 +1,6 @@
 package com.knoldus.kup.ipl.IPL_Management_System.controllers;
 
-import com.knoldus.kup.ipl.IPL_Management_System.dao.PlayerDao;
 import com.knoldus.kup.ipl.IPL_Management_System.dao.TeamDao;
-import com.knoldus.kup.ipl.IPL_Management_System.models.Player;
-
 import com.knoldus.kup.ipl.IPL_Management_System.models.Team;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,61 +10,52 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
 @Controller
-@RequestMapping("/players")
-public class PlayerController {
-
-    @Autowired
-    private PlayerDao playerDao;
+@RequestMapping("/teams")
+public class TeamController {
 
     @Autowired
     private TeamDao teamDao;
 
-//    @OneToMany(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "team_id", referencedColumnName = "id")
-//    private Team team;
 
-
-    @GetMapping("/addForm")
-    public String addForm(Model model){
-        Player player = new Player();
-        model.addAttribute("player",player);
-        return "addPlayer";
+    @GetMapping("/addTeam")
+    public String addTeamForm(Model model){
+        Team team = new Team();
+        model.addAttribute("team",team);
+        return "addTeam";
     }
 
     @PostMapping("/add")
-    public String addPlayer(Player player){
-        playerDao.save(player);
+    public String addTeam(Team team){
+        teamDao.save(team);
         return "redirect:/ipl";
     }
 
     @GetMapping("/edit/{id}")
     public String showUpdateForm(@PathVariable("id") long id, Model model) {
-        Player player = playerDao.findById(id)
+        Team team = teamDao.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid player Id:" + id));
 
-        model.addAttribute("player", player);
-        return "update-player";
+        model.addAttribute("team", team);
+        return "update-team";
     }
 
     @PostMapping("/update/{id}")
-    public String updatePlayer(@PathVariable("id") long id, Player player, Model model) {
+    public String updateTeam(@PathVariable("id") long id, Team team, Model model) {
 //        if (result.hasErrors()) {
 //            user.setId(id);
 //            return "update-user";
 //        }
 
-        playerDao.save(player);
+        teamDao.save(team);
         return "redirect:/ipl";
     }
 
     @GetMapping("/delete/{id}")
-    public String deletePlayer(@PathVariable("id") long id, Model model) {
-        Player player = playerDao.findById(id)
+    public String deleteTeam(@PathVariable("id") long id, Model model) {
+        Team team = teamDao.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid player Id:" + id));
-        playerDao.delete(player);
+        teamDao.delete(team);
         return "redirect:/ipl";
     }
-
 }
