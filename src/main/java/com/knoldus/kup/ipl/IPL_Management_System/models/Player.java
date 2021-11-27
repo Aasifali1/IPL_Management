@@ -11,7 +11,7 @@ public class Player {
     @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
 //    @MapsId("teamId")
     @JoinColumn(name = "team_id")
     private Team team;

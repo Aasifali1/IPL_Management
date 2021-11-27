@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -22,8 +23,9 @@ public class Team {
 //    @JoinColumn(name = "team_id", referencedColumnName = "id")
 //    private Team team;
 
-    @OneToMany(mappedBy = "team")
-    private Set<Player> players;
+    @OneToMany(mappedBy = "team",fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private Set<Player> players=new HashSet<>();
 
     public Team(String name, Set<Player> players) {
         this.name = name;
