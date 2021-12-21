@@ -1,4 +1,4 @@
-package com.knoldus.kup.ipl.IPL_Management_System.dao;
+package com.knoldus.kup.ipl.IPL_Management_System.repository;
 
 import com.knoldus.kup.ipl.IPL_Management_System.models.Player;
 import com.knoldus.kup.ipl.IPL_Management_System.models.Team;
@@ -11,7 +11,6 @@ import java.util.Set;
 ////    Team findByTeamName(String name);
 //
 //}
-public interface TeamDao extends JpaRepository<Team, Long> {
-//    Team findByTeamName(String name);
-
+public interface TeamRepository extends JpaRepository<Team, Long> {
+    public Team findByName(String name);
 }

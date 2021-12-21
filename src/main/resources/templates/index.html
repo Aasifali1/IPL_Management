@@ -4,13 +4,11 @@
     <meta charset="UTF-8">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-
-    <title>IPL</title>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <title>IPL Admin</title>
     <style>
-<!--        .project-tab {-->
-<!--            padding: 10%;-->
-<!--            margin-top: -8%;-->
-<!--        }-->
+
+         body{background-color:}
 
         .project-tab #tabs{
             background: #007b5e;
@@ -61,83 +59,150 @@
                   min-width: 1em;
                   margin-right: 0.5em;
                 }
+        nav ul {
+         list-style-type: none;
+         display: flex;
+         justify-content: space-between;
+        width:70%;
+        }
     </style>
 </head>
 <body>
 
-<div class="container mt-5">
+<div>
+    <nav class="navbar navbar-dark d-flex justify-content-center" style="background-color:#223577">
+        <div class="container"><div class="mt-3 row"><h4 class="text-light">Indian Premier League</h4></p></div></div>
+            <ul class="nav nav-tabs d-flex justify-content-center" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active text-light" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">PLAYERS</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link text-light" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">MATCHES</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link text-light" id="teams-tab" data-bs-toggle="tab" data-bs-target="#teams" type="button" role="tab" aria-controls="contact" aria-selected="false">TEAMS</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link text-light" id="table-tab" data-bs-toggle="tab" data-bs-target="#pointTable" type="button" role="tab" aria-controls="pointTable" aria-selected="false">TABLE</button>
+                </li>
+                <li class="nav-item" role="scoring">
+                    <button class="nav-link text-light" id="scoring-tab" data-bs-toggle="tab" data-bs-target="#scoringTable" type="button" role="tab" aria-controls="scoringTable" aria-selected="false">SCORE BOARD</button>
+                </li>
+            </ul>
+    </nav>
+</div>
 
-    <div class="d-flex justify-content-center">
-
-    </div>
-    <ul class="nav nav-tabs d-flex justify-content-center" id="myTab" role="tablist">
-        <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">PLAYERS</button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">MATCHES</button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="teams-tab" data-bs-toggle="tab" data-bs-target="#teams" type="button" role="tab" aria-controls="contact" aria-selected="false">TEAMS</button>
-        </li>
-    </ul>
+<!--table players-->
+<div class="container">
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
             <div class="mt-2 mb-2 d-flex justify-content-center">
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addplayer">
+                <button type="button" class="btn btn-primary mr-3" data-bs-toggle="modal" data-bs-target="#addplayer">
                     Add Player
                 </button>
+
             </div>
             <table class="table table-dark table-hover">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
+                    <th scope="col">S.N</th>
+                    <th scope="col">Player ID</th>
                     <th scope="col">Name</th>
                     <th scope="col">Country</th>
                     <th scope="col">Role</th>
-                    <th colspan="2">&emsp; &emsp; &emsp;Action</th>
+                    <th scope="col">Team</th>
+                    <th colspan="2">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each ="ply:${players}">
                     <td></td>
+                    <td>[[${ply.team.name}]][[${ply.id}]]</td>
                     <td th:text ="${ply.name}"></td>
-                    <td th:text ="${ply.country}"></td>
+                    <td th:text ="${ply.country.countryName}"></td>
                     <td th:text ="${ply.role}"></td>
-                    <td><a th:href="@{/players/edit/{id}(id=${ply.id})}">Edit</a></td>
-                    <td><a th:href="@{/players/delete/{id}(id=${ply.id})}">Delete</a></td>
+                    <td><a th:href="@{/teams/team/{id}(id=${ply.team.id})}" >[[${ply.team.name}]]</a></td>
+                    <td><a th:href="@{/players/edit/{id}(id=${ply.id})}"><i class="fas fa-edit text-success" /></a></td>
+                    <td><a th:href="@{/players/delete/{id}(id=${ply.id})}"><i class="fas fa-trash-alt text-danger" /></a></td>
                 </tr>
                 </tbody>
             </table>
         </div>
+
+<!--       Matches table -->
         <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-            <table class="table">
+            <!-- Button matche modal -->
+            <div class="mt-2 mb-2 d-flex justify-content-center">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMatch">
+                    Schedule Match
+                </button>
+            </div>
+            <table id="tableData" class="table table-dark table-hover">
                 <thead>
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Team1</th>
+                    <th scope="col">vs</th>
+                    <th scope="col">Team2</th>
+                    <th scope="col">Venue</th>
+                    <th scope="col">Date</th>
+<!--                    <th scope="col">Result</th>-->
+<!--                    <th scope="col">Winner</th>-->
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th colspan="2">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
+                <tr th:each ="match:${matches}">
+                    <td></td>
+                    <td><a th:href="@{/teams/team/{id}(id=${match.team1.id})}">[[${match.team1.name}]]</a></td>
+                    <td>vs</td>
+                    <td><a th:href="@{/teams/team/{id}(id=${match.team2.id})}" >[[${match.team2.name}]]</a></td>
+                    <td th:text ="${match.venue.name}"></td>
+                    <td th:text ="${match.matchDate}"></td>
+<!--                    <td th:text ="${match.result}"></td>-->
+<!--                    <td th:text ="${match.matchWinner}"></td>-->
+<!--                    <td><a th:href="@{/result/edit/{id}(id=${match.id})}">Update Score</a></td>-->
+                    <td></td>
+                    <td><a th:href="@{/matches/edit/{id}(id=${match.id})}"><i class="fas fa-edit text-success" /></a></td>
+                    <td><a th:href="@{/matches/delete/{id}(id=${match.id})}"><i class="fas fa-trash text-danger" /></a></td>
                 </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!--       Points table -->
+        <div class="tab-pane fade" id="pointTable" role="tabpanel" aria-labelledby="profile-tab">
+            <!-- Button matche modal -->
+            <div class="mt-2 mb-2 d-flex justify-content-center">
+            </div>
+            <table class="table table-dark table-hover">
+                <thead>
                 <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
+                    <!--          <th scope="col">ID</th>-->
+                    <th scope="col">Team</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col">M</th>
+                    <th scope="col">W</th>
+                    <th scope="col">L</th>
+                    <th scope="col">NRR</th>
+                    <th scope="col">Pts</th>
+
                 </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td colspan="2">Larry the Bird</td>
-                    <td>@twitter</td>
+                </thead>
+                <tbody>
+                <tr th:each ="pointTable:${pointTables}">
+                    <td th:text ="${pointTable.team.name}"></td>
+                    <td></td>
+                    <td></td>
+                    <td th:text ="${pointTable.totalMatch}"></td>
+                    <td th:text ="${pointTable.win}"></td>
+                    <td th:text ="${pointTable.lose}"></td>
+                    <td th:text ="${pointTable.netRunRate}"></td>
+                    <td th:text ="${pointTable.points}"></td>
                 </tr>
                 </tbody>
             </table>
@@ -156,21 +221,61 @@
                     <th scope="col">ID</th>
                     <th scope="col">Name</th>
                     <th scope="col">State</th>
-                    <th colspan="2">&emsp; &emsp; &emsp;Action</th>
+                    <th colspan="2">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each ="team:${teams}">
-                    <td><a th:href="@{/teams/players/{team_id}(team_id=${team.id})}">lkl</a></td>
-                    <td th:text ="${team.name}"></td>
-                    <td th:text ="${team.state}"></td>
-                    <td><a th:href="@{/teams/edit/{id}(id=${team.id})}">Edit</a></td>
-                    <td><a th:href="@{/teams/delete/{id}(id=${team.id})}">Delete</a></td>
+                    <td><a th:href="@{/teams/players/{team_id}(team_id=${team.id})}"></a></td>
+                    <td><a th:href="@{/teams/team/{id}(id=${team.id})}">[[${team.name}]]</a></td>
+                    <td th:text ="${team.city.cityName}"></td>
+                    <td><a th:href="@{/teams/edit/{id}(id=${team.id})}"><i class="fas fa-edit text-success" /></a></td>
+                    <td><a th:href="@{/teams/delete/{id}(id=${team.id})}"><i class="fas fa-trash text-danger" /></a></td>
                 </tr>
                 </tbody>
             </table>
         </div>
+
+        <!--       Scoring table -->
+        <div class="tab-pane fade" id="scoringTable" role="scoring" aria-labelledby="scoring-tab">
+            <table id="scoringTableData" class="table table-dark table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Team1</th>
+                    <th scope="col">vs</th>
+                    <th scope="col">Team2</th>
+                    <th scope="col">Team-1 Score</th>
+                    <th scope="col">Team-2 Score</th>
+                    <th scope="col">Result</th>
+                    <th scope="col">Winner</th>
+                    <th scope="col"></th>
+                    <th colspan="2">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each ="match:${matches}">
+                    <td></td>
+                    <td><a th:href="@{/teams/team/{id}(id=${match.team1.id})}">[[${match.team1.name}]]</a></td>
+                    <td>vs</td>
+                    <td><a th:href="@{/teams/team/{id}(id=${match.team2.id})}" >[[${match.team2.name}]]</a></td>
+                    <td th:text ="${match.team1Score}"></td>
+                    <td th:text ="${match.team2Score}"></td>
+                    <td th:text ="${match.result}"></td>
+                    <td th:text ="${match.matchWinner}"></td>
+<!--                    <td><a th:href="@{/matches/delete/{id}(id=${match.id})}"><i class="fas fa-trash text-danger" /></a></td>-->
+                    <td></td>
+                    <td><a th:href="@{/result/addScore/{id}(id=${match.id})}">Add Score</a></td>
+                    <td><a th:href="@{/result/editScore/{id}(id=${match.id})}"><i class="fas fa-edit text-success" /></a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+<!--        End of Table navbar-->
     </div>
+
+
 
 
     <!--  Team Add Modal -->
@@ -188,17 +293,27 @@
                             <div class="col">
                                 <div class="form-outline">
                                     <label class="form-label" for="name">Team Name</label>
-                                    <input type="text" th:field="*{name}" id="teamName" class="form-control" />
+                                    <input type="text" th:field="*{name}" id="teamName" class="form-control" onchange="checkTeamName();" required onkeypress="return allowOnlyLetters(event,this);"/>
+                                    <p class="text text-danger" id="teamNamemsg"></p>
+                                    <div class="text text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
                         <div class="mb-3">
                             <label for="role" class="form-label">Team State</label>
-                            <input type="text" class="form-control" th:field="*{state}" id="teamState" aria-describedby="role">
+                            <select th:field="*{city}" class="custom-select" id="select_city" onchange="validateCity()">
+                                <option value="0" selected >Choose...</option>
+                                <div th:each="city:${cities}">
+                                <option th:value="${city.id}" th:text="${city.cityName}"></option>
+<!--                                <option th:value="'F'" th:text="Female"></option>-->
+                                </div>
+                            </select>
                         </div>
 
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary" id="teamSubmit" onclick="teamSub()">Submit</button>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <!--                            <button type="button" class="btn btn-primary">Save changes</button>-->
                         </div>
@@ -213,34 +328,56 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Add Player</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form method="post" action="#" th:action="@{/players/add}" th:object="${player}">
                         <!-- 2 column grid layout with text inputs for the first and last names -->
+                        <p class="text text-danger" id="player_namemsg"></p>
+                        <p class="text text-danger" id="playermsg"></p>
                         <div class="row mb-3">
                             <div class="col">
                                 <div class="form-outline">
-                                    <label class="form-label" for="name">First name</label>
-                                    <input type="text" th:field="*{name}" id="name" class="form-control" />
+                                    <label class="form-label" for="name">Name</label>
+                                    <input type="text" th:field="*{name}" id="player_name" name="player_name" onchange="checkPlayerName();" onkeypress="return allowOnlyLetters(event,this);" class="form-control" />
+<!--                                    <script th:inline="javascript" th:if="${#fields.hasErrors('name')}">$("#addplayer").modal("show");</script>-->
+<!--                                    <div class="text text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">-->
+                                    <td class="text text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
                                 </div>
                             </div>
                         </div>
+
                         <div class="mb-3">
                             <label for="role" class="form-label">Team</label>
-                            <input type="text" class="form-control" th:field="*{team}" id="team" aria-describedby="role">
+                            <select th:field="*{team}" class="custom-select" id="team_select" onchange="checkTeamSelect()">
+                                <option value="0" selected >Choose...</option>
+                                <div th:each="team:${teams}">
+                                    <option th:value="${team.id}" th:text="${team.name}"></option>
+                                </div>
+                            </select>
                         </div>
                         <div class="mb-3">
-                            <label for="role" class="form-label">Role</label>
-                            <input type="text" class="form-control" th:field="*{role}" id="role" aria-describedby="role">
+                            <label  class="form-label">Role</label>
+                            <select th:field="*{role}" class="custom-select" id="role_select" onchange="checkRoleSelect()">
+                                <option value="0" selected >Choose...</option>
+                                <option th:value="Batsman" th:text="Batsman"></option>
+                                <option th:value="Bowler" th:text="Bowler"></option>
+                                <option th:value="All_Rounder" th:text="All_Rounder"></option>
+                            </select>
                         </div>
                         <div class="mb-3">
-                            <label for="country" class="form-label">Country</label>
-                            <input type="text" class="form-control" th:field="*{country}" id="country" aria-describedby="countryHelp">
+                            <label  class="form-label">Country</label>
+                            <select th:field="*{country}" class="custom-select" id="country_select"  onchange="checkCountrySelect()">
+                                <option value="0" selected>Choose...</option>
+                                <div th:each="country:${countries}">
+                                    <option th:value="${country.id}" th:text="${country.countryName}"></option>
+                                    <!--                                <option th:value="'F'" th:text="Female"></option>-->
+                                </div>
+                            </select>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" id="playerSubmit" class="btn btn-primary" onclick="playerSub()">Submit</button>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <!--                            <button type="button" class="btn btn-primary">Save changes</button>-->
                         </div>
@@ -250,9 +387,440 @@
         </div>
     </div>
 
+    <!--  Match schedule Modal -->
+    <div class="modal fade" id="addMatch" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="d">Schedule Match</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="#" th:action="@{/matches/save}" th:object="${match}">
+
+<!--                        <div class="mb-3">-->
+<!--                            <label for="role" class="form-label">Winner</label>-->
+<!--                            <input type="text" class="form-control" th:field="*{matchWinner}" id="matchWinner" aria-describedby="role">-->
+<!--                        </div>-->
+<!--                        <div class="mb-3">-->
+<!--                            <label for="country" class="form-label">Result</label>-->
+<!--                            <input type="text" class="form-control" th:field="*{result}" id="result" aria-describedby="countryHelp">-->
+<!--                        </div>-->
+<!--                        <div class="mb-3">-->
+<!--                            <label for="country" class="form-label">Toss Winner</label>-->
+<!--                            <input type="text" class="form-control" th:field="*{tossWinner}" id="tossWinner" aria-describedby="countryHelp">-->
+<!--                        </div>-->
+                        <!-- 2 column grid layout with text inputs for the first and last names -->
+                        <p class="text text-danger" id="matchMsg"></p>
+                        <div class="mb-3">
+                                <label class="form-label" for="date_picker">Date</label>
+                                <input class="form-control" type="datetime-local" id="date_picker" name="meeting-time"
+                                       min="2021-12-06T00:00" max="2022-06-14T024:00" th:field="*{matchDate}" onchange="checkVenueDate()"/>
+                        </div>
+                        <div class="mb-3">
+                            <label for="venue_select" class="form-label">Venue</label>
+                            <select th:field="*{venue}" class="custom-select" id="venue_select" onchange="checkVenueDate()">
+                                <option value="0" selected >Choose...</option>
+                                <div th:each="venue:${venues}">
+                                    <option th:value="${venue.id}" th:text="${venue.name}"></option>
+                                </div>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="team1_select" class="form-label">Team-1</label>
+                            <select th:field="*{team1}" class="custom-select" id="team1_select" onchange="team1Options()">
+                                <option value="0" selected >Choose...</option>
+                                <div th:each="team:${teams}">
+                                    <option th:value="${team.id}" th:text="${team.name}"></option>
+                                </div>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="team2_select" class="form-label">Team-2</label>
+                            <select th:field="*{team2}" class="custom-select" id="team2_select" onchange="team2Options()">
+                                <option value="0" selected >Choose...</option>
+                                <div th:each="team:${teams}">
+                                    <option th:value="${team.id}" th:text="${team.name}"></option>
+                                </div>
+                            </select>
+                        </div>
+                        <button type="submit" onclick="matchFormSubmit()" id="matchSubmit" class="btn btn-success">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<script>
+
+<!--------------------------------------------- validation for player modal ------------------------------------------->
+
+       function allowOnlyLetters(e, t)
+            {
+              if (window.event){ var charCode = window.event.keyCode;}
+                else if (e){var charCode = e.which;}
+                else{ return true;}
+                if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123)|| (charCode==32)){
+                    $("#"+t.id).css('border-color', '');
+                    document.getElementById(t.id+"msg").innerHTML = "";
+                    return true;
+                }else{
+                    console.log("this :",t.id);
+                    $("#"+t.id).css('border-color', 'red');
+                    document.getElementById(t.id+"msg").innerHTML = "Please enter only alphabets";
+                    return false;
+                }
+            }
+            <!------------------------------------    Add player validation-------------------------------------->
+
+            function checkTeamSelect(){
+                var teamId = $("#team_select option:selected").val();
+               if(teamId==0){
+                        $("#playermsg").css('border-color', 'red');
+                        $("#playermsg").html("Please select all fields");
+                        $("#team_select").css('border-color', 'red');
+                        document.getElementById("playerSubmit").disabled = true;
+                        return true;
+                    }else {
+                         $("#playermsg").html("");
+                         $("#team_select").css('border-color', '');
+                        document.getElementById("playerSubmit").disabled = false;
+                        return false;
+                    }
+                }
+
+             function checkRoleSelect(){
+                var roleId = $("#role_select option:selected").val();
+               if(roleId == 0){
+                        $("#playermsg").css('border-color', 'red');
+                        $("#playermsg").html("Please select all fields");
+                        $("#role_select").css('border-color', 'red');
+                        document.getElementById("playerSubmit").disabled = true;
+                        return true;
+                    }else {
+                         $("#playermsg").html("");
+                         $("#role_select").css('border-color', '');
+                        document.getElementById("playerSubmit").disabled = false;
+                        return false;
+                    }
+                }
+
+              function checkCountrySelect(){
+                var countryId = $("#country_select option:selected").val();
+               if(countryId==0){
+                        $("#playermsg").css('border-color', 'red');
+                        $("#playermsg").html("Please select all fields");
+                        $("#country_select").css('border-color', 'red');
+                        document.getElementById("playerSubmit").disabled = true;
+                        return true;
+                    }else {
+                         $("#playermsg").html("");
+                         $("#country_select").css('border-color', '');
+                        document.getElementById("playerSubmit").disabled = false;
+                        return false;
+                    }
+                }
+
+            function checkPlayer(){
+                var roleId = $("#role_select option:selected").val();
+                var teamId = $("#team_select option:selected").val();
+                var countryId = $("#country_select option:selected").val();
+               if(roleId == 0 || teamId==0 || countryId==0){
+                        $("#playermsg").css('border-color', 'red');
+                        $("#playermsg").html("Please select all fields");
+                        $("#country_select").css('border-color', 'red');
+                        $("#team_select").css('border-color', 'red');
+                        $("#role_select").css('border-color', 'red');
+                        document.getElementById("playerSubmit").disabled = true;
+                        return true;
+                    }else {
+                         $("#playermsg").html("");
+                         $("#role_select").css('border-color', '');
+                         $("#team_select").css('border-color', '');
+                         $("#country_select").css('border-color', '');
+                        document.getElementById("playerSubmit").disabled = false;
+                        return false;
+                    }
+                }
+
+                function checkPlayerName(){
+                    var playerName = $("#player_name").val();
+                   if(playerName.length < 4)
+                 {
+                    document.getElementById("playerSubmit").disabled = true;
+                    $("#playermsg").html("Please enter name, contains atleast 4 characters");
+                    return true;
+                 }else{
+                    document.getElementById("playerSubmit").disabled = false;
+                    $("#playermsg").html("");
+                    return false;
+                 }
+                }
+
+                function playerSub(){
+                    if(checkPlayerName() ||  checkPlayer())
+                    {
+                        document.getElementById("playerSubmit").disabled = true;
+                        $("#playermsg").html("Please fill all the fields....");
+                    }
+                }
+
+<!-------------------------------------- Validation for date time picker in matches modal ---------------------------------------->
+
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+    var dateControl = document.querySelector('input[type="datetime-local"]');
+    var time = today.getHours()+':'+today.getMinutes();
+    dateControl.min = yyyy + '-' + mm + '-' +dd+ 'T'+time;
+    console.log(dateControl.min);
+    dateControl.value = dateControl.min;
+
+
+<!---------------------------------- DateTIme Validation and venue select same day ------------------------------------------------>
+       function matchFormSubmit(){
+            if(checkVenueDate() ||  matchScheduleValidate())
+            {
+                $("#matchMsg").html("Please fill all the fields...");
+                document.getElementById("matchSubmit").disabled = true;
+            }
+        }
+
+    function checkVenueDate() {
+<!--        checkVenue();-->
+        var dateControl1 = document.querySelector('input[type="datetime-local"]').value;
+        var selectedDate = new Date(dateControl1);
+        var date1 = selectedDate.getFullYear()+','+(selectedDate.getMonth()+1)+','+selectedDate.getDate();
+        var venueSelected = $("#venue_select option:selected").html();
+        console.log("Present: "+isSlotBooked(venueSelected, date1));
+
+         if(venueId == 0){
+            var venueId = $("#venue_select option:selected").val();
+            console.log("inside venue check == 0");
+            $("#matchMsg").html("Please select the venue");
+            $("#venue_select").css('border-color', 'red');
+            document.getElementById("matchSubmit").disabled = true;
+<!--            return true;-->
+        }else {
+             $("#matchMsg").html("");
+             $("#venue_select").css('border-color', '');
+            document.getElementById("matchSubmit").disabled = false;
+<!--            return false;-->
+        }
+
+        if(isSlotBooked(venueSelected, date1)){
+            return true;
+        }
+       console.log("Runnnig------------- ");
+    }
+    function isSlotBooked(venueSelected, date1){
+        var n1 = document.getElementById("tableData").rows.length;
+        var i=0,j=0;
+         for(i=1; i<n1;i++){
+            var n2 = document.getElementById("tableData").rows[i].cells.length;
+            var x=document.getElementById("tableData").rows[i].cells.item(5).innerHTML;
+            var tableVenue =document.getElementById("tableData").rows[i].cells.item(4).innerHTML;
+            var datetime = x.split(" "); //-- 2021-12-13
+            var date = datetime[0].split("-");
+            var date2 = date[0]+","+date[1]+","+date[2];
+
+        console.log("DatePicker:  "+date1);
+        console.log("Hello");
+
+         if(date1 == "NaN,NaN,NaN"){
+          console.log("condistion trye ",venueSelected);
+             return true;
+         }
+
+        function diff_minutes(dt2, dt1)
+         {
+          var diff =(dt2.getTime() - dt1.getTime()) / 1000;
+          diff /= 60;
+          return Math.abs(Math.round(diff));
+         }
+        dt1 = new Date(date1);
+        dt2 = new Date(date2);
+        console.log("Tablevenue ",tableVenue);
+        console.log("Selected ",venueSelected);
+        var timeDiff = diff_minutes(dt1, dt2)/60
+        console.log("Hours: ",timeDiff);
+
+        if(timeDiff == 0 && venueSelected == tableVenue){
+            console.log(timeDiff ==0 && venueSelected == tableVenue);
+             $("#venue_select").css('border-color', 'red');
+             $("#date_picker").css('border-color', 'red');
+             $("#matchMsg").html("This slot is booked for other match. Please select another date");
+            document.getElementById("matchSubmit").disabled = true;
+            return true;
+            }else if(timeDiff !=0 || venueSelected != tableVenue){
+                console.log("false condition");
+                 $("#matchMsg").html("");
+                 $("#venue_select").css('border-color', '');
+                 $("#date_picker").css('border-color', '');
+                document.getElementById("matchSubmit").disabled = false;
+            }
+        }
+    }
+
+<!---------------------------------- Validation for Team selection in matches modal --------------------------------------------->
+
+    function team2Options(){
+        var team2Id = $("#team2_select option:selected").val();
+        var team1Id = $("#team1_select option:selected").val();
+
+          if(team2Id==0){
+            $("#matchMsg").html("Please select team-2");
+                document.getElementById("matchSubmit").disabled = true;
+                $("#team2_select").css('border-color', 'red');
+                return true;
+            }else{
+                $("#matchMsg").html("");
+                document.getElementById("matchSubmit").disabled = false;
+                $("#team2_select").css('border-color', '');
+            }
+
+         if(team1Id == team2Id){
+              $("#matchMsg").html("Team cannot be same. Please select different team instead");
+              $("#team1_select").css('border-color', 'red');
+              $("#team2_select").css('border-color', 'red');
+              document.getElementById("matchSubmit").disabled = true;
+              return true;
+            }
+          if (team1Id != team2Id){
+                $("#matchMsg").html("");
+                $("#team1_select").css('border-color', '');
+                $("#team2_select").css('border-color', '');
+                document.getElementById("matchSubmit").disabled = false;
+            }
+    }
+
+     function team1Options(){
+        var team2Id = $("#team2_select option:selected").val();
+        var team1Id = $("#team1_select option:selected").val();
+      if(team1Id==0){
+            $("#matchMsg").html("Please select team-1");
+            document.getElementById("matchSubmit").disabled = true;
+            $("#team1_select").css('border-color', 'red');
+            return true;
+        }
+
+       if(team1Id == team2Id){
+              $("#matchMsg").html("Team cannot be same. Please select different team instead");
+              $("#team1_select").css('border-color', 'red');
+              $("#team2_select").css('border-color', 'red');
+              document.getElementById("matchSubmit").disabled = true;
+              return true;
+            }
+          else if (team1Id != team2Id){
+                $("#matchMsg").html("");
+                $("#team1_select").css('border-color', '');
+                $("#team2_select").css('border-color', '');
+                document.getElementById("matchSubmit").disabled = false;
+            }
+        }
+
+     function checkVenue(){
+        if(venueId == 0){
+            $("#matchMsg").html("Please select the venue");
+            $("#venue_select").css('border-color', 'red');
+            document.getElementById("matchSubmit").disabled = true;
+            return true;
+        }else {
+             $("#matchMsg").html("");
+             $("#venue_select").css('border-color', '');
+            document.getElementById("matchSubmit").disabled = false;
+        }
+     }
+
+
+    function matchScheduleValidate() {
+        var venueId = $("#venue_select option:selected").val();
+        var team1Id = $("#team1_select option:selected").val();
+        var team2Id = $("#team2_select option:selected").val();
+
+      if(team1Id==0 || team2Id==0){
+          $("#matchMsg").html("Please select all the fields..");
+          document.getElementById("matchSubmit").disabled = true;
+          return true;
+      }
+      else if(team1Id == team2Id){
+            $("#matchMsg").html("Team cannot be same. Please select different team instead");
+            document.getElementById("matchSubmit").disabled = true;
+            $("#team1_select").css('border-color', 'red');
+            $("#team2_select").css('border-color', 'red');
+            return true;
+        }
+      else if (team1Id != team2Id){
+            $("#matchMsg").html("");
+            $("#team1_select").css('border-color', '');
+            $("#team2_select").css('border-color', '');
+            document.getElementById("matchSubmit").disabled = false;
+      }
+        if(venueId == 0){
+            $("#matchMsg").html("Please select the venue");
+            $("#venue_select").css('border-color', 'red');
+            document.getElementById("matchSubmit").disabled = true;
+        }else {
+             $("#matchMsg").html("");
+             $("#venue_select").css('border-color', '');
+            document.getElementById("matchSubmit").disabled = false;
+        }
+    }
+
+<!----------------- Adding team Validation -------------------------->
+
+    function validateCity(){
+        var cityId = $("#select_city option:selected").val();
+        if(cityId == 0){
+           console.log("Submit");
+           alert("Please select the city");
+           $("#select_city").css('border-color', 'red');
+           document.getElementById("teamSubmit").disabled = true;
+           return true;
+        }else {
+           console.log("Submit");
+           $("#select_city").css('border-color', '');
+           document.getElementById("teamSubmit").disabled = false;
+           return false;
+        }
+    }
+
+     function checkTeamName(){
+        var teamName = $("#teamName").val();
+        if(teamName.length <1)
+        {
+          document.getElementById("playerSubmit").disabled = true;
+          $("#teamNamemsg").html("Please enter name, contains atleast 2 characters");
+          return true;
+        }else{
+        document.getElementById("playerSubmit").disabled = false;
+        return false;
+      }
+    }
+
+    function teamSub(){
+        if(checkTeamName() ||  validateCity())
+        {
+            console.log("Submit");
+            document.getElementById("teamSubmit").disabled = true;
+        }
+    }
+
+<!--$('.mybutton').click(function() {-->
+<!--  if ($(".input").val().trim() == '')-->
+<!--    $(".playermsg").css('border-color', 'red');-->
+<!--  else-->
+<!--    $(".input").css('border-color', '');-->
+<!--});-->
+
+</script>
 </body>
 </html>
