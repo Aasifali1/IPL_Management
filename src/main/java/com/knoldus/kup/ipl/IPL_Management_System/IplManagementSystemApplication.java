@@ -9,5 +9,4 @@ public class IplManagementSystemApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(IplManagementSystemApplication.class, args);
 	}
-
 }

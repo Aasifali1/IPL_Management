@@ -3,7 +3,8 @@ package com.knoldus.kup.ipl.IPL_Management_System.models;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
-import java.util.ArrayList;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,27 +14,36 @@ import java.util.Set;
 @Service
 public class Team {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-    private String name;
-    private String state;
 
-//    @OneToMany(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "team_id", referencedColumnName = "id")
-//    private Team team;
+    @Size(min=3,message = "Team name should contain atleast 3 characters")
+    private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "city_id")
+    private City city;
 
     @OneToMany(mappedBy = "team",fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
-    private Set<Player> players=new HashSet<>();
+    private Set<Player> players;
 
-    public Team(String name, Set<Player> players) {
-        this.name = name;
-        this.players = players;
-    }
+    @OneToMany(mappedBy = "team1",fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private Set<Match> team1Matches;
 
-    public Team() {
-    }
+    @OneToMany(mappedBy = "team2",fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private Set<Match> team2Matches;
+
+    @OneToOne(mappedBy = "team",fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private PointTable pointTable;
+
+    @OneToMany(mappedBy = "tossWinnerTeam",fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private List<Match> tossWinmatches;
 
     public Long getId() {
         return id;
@@ -51,6 +61,14 @@ public class Team {
         this.name = name;
     }
 
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
     public Set<Player> getPlayers() {
         return players;
     }
@@ -59,20 +77,35 @@ public class Team {
         this.players = players;
     }
 
-    public String getState() {
-        return state;
+    public Set<Match> getTeam1Matches() {
+        return team1Matches;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setTeam1Matches(Set<Match> team1Matches) {
+        this.team1Matches = team1Matches;
     }
 
-    @Override
-    public String toString() {
-        return "Team{" +
-                ", name='" + name + '\'' +
-                ", state='" + state + '\'' +
-                ", players=" + players +
-                '}';
+    public Set<Match> getTeam2Matches() {
+        return team2Matches;
+    }
+
+    public void setTeam2Matches(Set<Match> team2Matches) {
+        this.team2Matches = team2Matches;
+    }
+
+    public PointTable getPointTable() {
+        return pointTable;
+    }
+
+    public void setPointTable(PointTable pointTable) {
+        this.pointTable = pointTable;
+    }
+
+    public List<Match> getTossWinmatches() {
+        return tossWinmatches;
+    }
+
+    public void setTossWinmatches(List<Match> tossWinmatches) {
+        this.tossWinmatches = tossWinmatches;
     }
 }

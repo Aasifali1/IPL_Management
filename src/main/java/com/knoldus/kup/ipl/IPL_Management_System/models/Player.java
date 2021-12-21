@@ -1,33 +1,33 @@
 package com.knoldus.kup.ipl.IPL_Management_System.models;
 
+import org.springframework.stereotype.Service;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "players")
+@Service
 public class Player {
     @Id
     @Column(name = "id", nullable = false, insertable = true)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-//    @MapsId("teamId")
+    @Size(min=1, message="Player name is required")
+    @NotNull
+    private String name;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, optional = false)
     @JoinColumn(name = "team_id")
     private Team team;
 
-//    @NotBlank(message = "Name is mandatory")
-    private String name;
-    private String country;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, optional = false)
+    @JoinColumn(name = "country_id")
+    private Country country;
     private String role;
-
-    public Team getTeam() {
-        return team;
-    }
-
-    public void setTeam(Team team) {
-        this.team = team;
-    }
 
     public Long getId() {
         return id;
@@ -45,11 +45,19 @@ public class Player {
         this.name = name;
     }
 
-    public String getCountry() {
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    public Country getCountry() {
         return country;
     }
 
-    public void setCountry(String country) {
+    public void setCountry(Country country) {
         this.country = country;
     }
 
