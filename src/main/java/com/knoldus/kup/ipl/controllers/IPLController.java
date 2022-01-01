@@ -16,7 +16,7 @@ public class IPLController {
 
 //    ---------------------- Player Part---------------------------------
     @Autowired
-PlayerService playerService;
+    PlayerService playerService;
 
     @Autowired
     TeamService teamService;
@@ -92,3 +92,4 @@ PlayerService playerService;
         return "dashboard";
     }
 }
+

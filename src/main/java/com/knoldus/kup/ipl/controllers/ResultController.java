@@ -3,6 +3,7 @@ package com.knoldus.kup.ipl.controllers;
 import com.knoldus.kup.ipl.models.Match;
 import com.knoldus.kup.ipl.models.Team;
 import com.knoldus.kup.ipl.models.Venue;
+import com.knoldus.kup.ipl.producer.Producer;
 import com.knoldus.kup.ipl.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,6 +37,9 @@ public class ResultController {
 
     @Autowired
     PointService pointService;
+
+    @Autowired
+    Producer producer;
 
     @GetMapping("/addScore/{match_id}")
     public String showAddForm(@PathVariable ("match_id") long match_id, Model model) {
@@ -83,6 +87,7 @@ public class ResultController {
     public String ScoreSave(@PathVariable("id") long id, Match match, Model model, RedirectAttributes redirectAttributes){
         resultService.getResult(match);
         pointService.addPointTable(match);
+        producer.sendMessage(match);
         redirectAttributes.addFlashAttribute("message", "Score added successfully");
         redirectAttributes.addFlashAttribute("messageType", "score");
         redirectAttributes.addFlashAttribute("alertType", "success");
